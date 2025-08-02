@@ -3,7 +3,10 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(
+    api_key=os.getenv("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1"
+)
 
 def build_prompt(user_input):
     if any(op in user_input for op in ['+', '-', '*', '/', 'add', 'subtract', 'multiply', 'divide']):
@@ -22,7 +25,7 @@ def build_prompt(user_input):
 def get_llm_response(prompt):
     try:
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="llama3-8b-8192",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant. Always think step-by-step and explain clearly."},
                 {"role": "user", "content": prompt}
