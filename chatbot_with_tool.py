@@ -2,15 +2,14 @@ import os
 import re
 from dotenv import load_dotenv
 from calculator_tool import calculate
-from openai import OpenAI 
+from openai import OpenAI
 
 load_dotenv()
-api_key = os.getenv("GROQ_API_KEY") 
+api_key = os.getenv("GROQ_API_KEY")
 client = OpenAI(
     api_key=api_key,
     base_url="https://api.groq.com/openai/v1"
 )
-
 
 def is_math_query(query):
     math_keywords = ["add", "plus", "subtract", "minus", "multiply", "times", "divide", "divided", "*", "/", "+", "-"]
@@ -39,16 +38,29 @@ def main():
     while True:
         user_input = input("You: ").strip()
         if user_input.lower() == "exit":
+            print("Goodbye!")
             break
 
-        if is_math_query(user_input):
+        lower_input = user_input.lower()
+
+        if lower_input.count("and") > 1 or (
+            "and" in lower_input and any(kw in lower_input for kw in ["capital", "translate", "distance"])
+        ):
+            response = "Tool: Cannot handle multiple tasks at once."
+            print(response)
+            log_interaction(user_input, response)
+        elif is_math_query(user_input):
             result = calculate(user_input)
             print(f"Tool: {result}")
-        elif "and" in user_input.lower() and any(op in user_input.lower() for op in ["add", "plus", "multiply", "*", "+", "times"]):
-            print("Tool: Cannot handle multiple tasks at once.")
+            log_interaction(user_input, f"Tool: {result}")
         else:
             response = ask_llm(user_input)
             print(f"Assistant: {response}")
+            log_interaction(user_input, f"Assistant: {response}")
+
+def log_interaction(user_input, response):
+    with open("interactions_level2.txt", "a") as log_file:
+        log_file.write(f"User: {user_input}\n{response}\n\n")
 
 if __name__ == "__main__":
     main()

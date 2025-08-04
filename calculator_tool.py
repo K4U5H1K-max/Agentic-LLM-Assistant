@@ -1,3 +1,4 @@
+# calculator_tool.py
 import re
 
 num_words = {
@@ -17,18 +18,13 @@ def extract_numbers(query):
     for word in words:
         if word in num_words:
             numbers.append(num_words[word])
+
     digits = list(map(int, re.findall(r'\d+', query)))
     return numbers + digits
 
 def calculate(query):
     query = query.lower()
     query = query.replace("x", "*").replace("×", "*")
-
-    if re.fullmatch(r'[\d+\-*/().\s]+', query):
-        try:
-            return eval(query)
-        except:
-            return "Invalid expression"
 
     numbers = extract_numbers(query)
 
@@ -37,17 +33,9 @@ def calculate(query):
 
     if "add" in query or "plus" in query:
         return sum(numbers)
-    elif "subtract" in query or "minus" in query:
-        return numbers[0] - numbers[1]
     elif "multiply" in query or "times" in query:
         result = 1
         for num in numbers:
             result *= num
         return result
-    elif "divide" in query or "divided" in query:
-        try:
-            return numbers[0] / numbers[1]
-        except ZeroDivisionError:
-            return "Cannot divide by zero"
-
     return "Unsupported operation"

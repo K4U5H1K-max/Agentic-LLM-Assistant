@@ -1,0 +1,57 @@
+User: hi
+Assistant: Hi! It's nice to meet you. Is there something I can help you with or would you like to chat?
+
+User: 2+2
+Tool: 4
+
+User: whats the capital of italy
+Assistant: The capital of Italy is Rome.
+
+User: "What is 12 times 7?"
+Tool: 84
+
+User: "Add 45 and 30"
+Tool: 75
+
+User: "What is the capital of France?"
+Assistant: The capital of France is Paris.
+
+User: "Multiply 9 and 8, and also tell me the capital of Japan."
+Tool: 72
+
+User: hi
+Assistant: Hi! It's nice to meet you. Is there something I can help you with or would you like to chat?
+
+User: 2+2
+Tool: 4
+
+User: "Multiply 9 and 8, and also tell me the capital of Japan."
+Tool: Cannot handle multiple tasks at once.
+
+User: "What is the capital of France?"
+Assistant: The capital of France is Paris.
+
+User: "Add 45 and 30"
+Tool: Cannot handle multiple tasks at once.
+
+User: what is accounting standard 10
+Tool: Need at least two numbers
+
+User: hi
+Assistant: Hi! It's nice to meet you. Is there something I can help you with, or would you like to chat?
+
+User: add 12 and 23
+Tool: 35
+
+User: "What is 12 times 7?"
+Tool: 84
+
+User: "Add 45 and 30"
+Tool: 75
+
+User: "What is the capital of France?"
+Assistant: The capital of France is Paris.
+
+User: "Multiply 9 and 8, and also tell me the capital of Japan."
+Tool: Cannot handle multiple tasks at once.
+
