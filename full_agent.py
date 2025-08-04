@@ -17,7 +17,6 @@ def ask_llm(prompt):
     )
     return response.choices[0].message.content.strip()
 
-# Task classifier (used in fallback)
 def classify_task(part):
     part_lower = part.lower()
     if "translate" in part_lower:
@@ -30,22 +29,18 @@ def classify_task(part):
 def detect_tasks(query):
     tasks = []
 
-    # Match full calculation expressions
     calc_matches = re.findall(r'add\s+\d+\s+and\s+\d+|multiply\s+\d+\s+and\s+\d+', query, flags=re.IGNORECASE)
     for match in calc_matches:
         tasks.append(("calculation", match.strip()))
 
-    # Match translations like: translate 'text'
     trans_matches = re.findall(r"(translate\s+'[^']+')", query, flags=re.IGNORECASE)
     for match in trans_matches:
         tasks.append(("translation", match.strip()))
 
-    # Remove matched parts
     cleaned_query = query
     for match in calc_matches + trans_matches:
         cleaned_query = cleaned_query.replace(match, "")
 
-    # Anything left gets classified
     leftover_parts = re.split(r'\bthen\b|,|\.|\band\b', cleaned_query, flags=re.IGNORECASE)
     for part in leftover_parts:
         part = part.strip()
